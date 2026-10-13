@@ -53,17 +53,17 @@ const missao = [
  * /missao:
  *   get:
  *     summary: Lista missao
- *     description: Retorna a lista de missao, com filtro opcional por nome
+ *     description: Retorna a lista de missao, com filtro opcional por título
  *     parameters:
  *       - in: query
  *         name: nome
  *         required: false
  *         schema:
  *           type: string
- *         description: Filtra as missões pelo nome
+ *         description: Filtra as missoes pelo nome
  *     responses:
  *       200:
- *         description: Lista de missões retornada com sucesso
+ *         description: Lista de missoes retornada com sucesso
  *         content:
  *           application/json:
  *             schema:
@@ -76,24 +76,24 @@ const missao = [
  *                   nome:
  *                     type: string
  *                   ano:
- *                     type: integer
- *                  agencia:
- *                      type: string
- *                  status:
- *                      type: string
- *                  example: Concluida
+ *                     type: string
+ *                   agencia:
+ *                     type: string
+ *                   status:
+ *                     type: boolean
  */
+
 app.get('/missao', (req, res) => {
 
     const nome = req.query?.nome || null
     let missaoFiltradas = null
     if (nome !== null) {
         missaoFiltradas = missao.filter(item => item.nome.toLowerCase()
-            .includes(titulo.toLowerCase()));
+            .includes(nome.toLowerCase()));
 
     }
 
-    missaoFiltradas = missaoFiltradas ?? missaos;
+    missaoFiltradas = missaoFiltradas ?? missao;
     res.status(200).json(missaoFiltradas);
 });
 
@@ -118,20 +118,20 @@ app.get('/missao', (req, res) => {
 app.get('/missao/:id', (req, res) => {
     const id = Number(req.params?.id);
 
-    const missao = missao.find(item => item.id === id);
+    const Missao = missao.find(item => item.id === id);
 
-    if (!missao) {
+    if (!Missao) {
         return res.status(404).json({ error: "Missão não encontrada" })
     }
 
-    res.status(200).json(missao);
+    res.status(200).json(Missao);
 
 });
 /**
  * @openapi
  * /missao:
  *   post:
- *     summary: Cria uma nova missão
+ *     summary: Cria uma missao nova
  *     requestBody:
  *       required: true
  *       content:
@@ -146,15 +146,16 @@ app.get('/missao/:id', (req, res) => {
  *               nome:
  *                 type: string
  *               ano:
- *                 type: integer
- *               agencia:
  *                 type: string
+ *               example: ano 2000
+ *               agencia:
+ *                     type: string
  *               status:
- *                  type: string
- *                example: em preparação
+ *                 type: boolean
+ *                 example: true
  *     responses:
  *       201:
- *         description: Missão criada com sucesso
+ *         description: Missao criada com sucesso
  *       400:
  *         description: Dados inválidos
  */
@@ -188,11 +189,12 @@ app.post('/missao', (req, res) => {
 
     res.status(201).json(novaMissao);
 });
+
 /**
  * @openapi
- * /missao/{id}:
+ * /livros/{id}:
  *   put:
- *     summary: Atualiza uma missão pelo id
+ *     summary: Atualiza uma missao pelo id
  *     parameters:
  *       - in: path
  *         name: id
@@ -207,47 +209,47 @@ app.post('/missao', (req, res) => {
  *             type: object
  *             properties:
  *               nome:
- *               type: string
- *                 example: maria
+ *                 type: string
+ *                 example: Abigail
  *               ano:
- *                 type: integer
- *                 example: 2028
+ *                 type: string
+ *                 example: 2010 ano
  *               agencia:
  *                 type: string
- *                  example: nasa
+ *                 example: Nasa
  *               status:
- *                 type: string
- *                 example: concluida
+ *                 type: boolean
+ *                 example: false
  *     responses:
  *       200:
- *         description: Missão atualizada com sucesso
+ *         description: Missao atualizada com sucesso
  *       404:
- *         description: Missão não encontrado
+ *         description: Missao não encontrada
  */
 
 app.put('/missao/:id', (req, res) => {
     const id = Number(req.params.id);
-    const missao = missao.find(item => item.id === id);
-    if (!missao) {
+    const Missao = missao.find(item => item.id === id);
+    if (!Missao) {
         return res.status(404).json({ error: "Missão não encontrada" })
     }
 
     if (req?.body?.nome && req.body.nome !== "") {
-        missao.nome = req.body.nome;
+        Missao.nome = req.body.nome;
     }
 
     if (req?.body?.ano && req.body.ano !== "") {
-        missao.ano = req.body.ano;
+        Missao.ano = req.body.ano;
     }
     if (req?.body?.agencia && req.body.agencia !== "") {
-        missao.agencia = req.body.agencia;
+        Missao.agencia = req.body.agencia;
     }
 
     if (req?.body?.status && req.body.status !== "") {
-        missao.status = req.body.status;
+        Missao.status = req.body.status;
     }
 
-    res.status(200).json(missao)
+    res.status(200).json(Missao)
 });
 
 /**
