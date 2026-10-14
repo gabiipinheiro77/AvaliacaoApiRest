@@ -1,7 +1,7 @@
 # API REST de Missões Espaciais
 ## 1. Identificação
-- **Aluno:** SEU NOME COMPLETO
-- **Curso:** NOME DO SEU CURSO
+- **Aluno:** Gabriela Rocha Pinheiro
+- **Curso:** Informatica pra Internet
 - **Unidade Curricular:** Desenvolver Serviços Web
 ## 2. Descrição do Projeto
 API REST desenvolvida com Node.js e Express para o gerenciamento de missões espaciais. Permite cadastrar, consultar, atualizar e remover missões (CRUD). Os dados ficam em memória, os testes são automatizados e a documentação é interativa via Swagger (OpenAPI 3.0).
